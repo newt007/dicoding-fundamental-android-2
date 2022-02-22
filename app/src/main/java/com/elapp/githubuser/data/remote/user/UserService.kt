@@ -18,4 +18,14 @@ interface UserService {
         @Path("login") login: String
     ) : User
 
+    @GET("users/{login}/followers")
+    suspend fun getFollowers(
+        @Path("login") login: String,
+    ) : List<User>
+
+    @GET("users/{login}/following")
+    suspend fun getFollowing(
+        @Path("login") login: String
+    ) : List<User>
+
 }

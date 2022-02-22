@@ -21,4 +21,12 @@ class UserRepository @Inject constructor(private val userDataSource: UserDataSou
         return userDataSource.getDetailUser(login).flowOn(Dispatchers.IO)
     }
 
+    suspend fun getFollowers(login: String): Flow<ApiResponse<List<User>>> {
+        return userDataSource.getFollowers(login).flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getFollowing(login: String): Flow<ApiResponse<List<User>>> {
+        return userDataSource.getFollowing(login).flowOn(Dispatchers.IO)
+    }
+
 }

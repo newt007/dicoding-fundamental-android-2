@@ -4,6 +4,7 @@
     <string name="loading">Loading...</string>
     <string name="placeholder">--</string>
     <string name="following">Following</string>
+    <string name="followers">Followers</string>
     <string name="repository">Repository</string>
     <string name="followers_page">Followers Page</string>
     <string name="following_page">Following Page</string>

@@ -1,4 +1,4 @@
-package com.elapp.githubuser.presentation.ui.followers
+package com.elapp.githubuser.presentation.ui.following
 
 import android.os.Bundle
 import android.util.Log
@@ -10,19 +10,19 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.elapp.githubuser.data.entity.User
 import com.elapp.githubuser.data.remote.ApiResponse
-import com.elapp.githubuser.databinding.FragmentFollowersBinding
+import com.elapp.githubuser.databinding.FragmentFollowingBinding
 import com.elapp.githubuser.presentation.ui.detail.UserDetailActivity
 import com.elapp.githubuser.presentation.ui.user.UserAdapter
 import com.elapp.githubuser.presentation.ui.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FollowerFragment : Fragment() {
-
-    private var _fragmentFollowerBinding: FragmentFollowersBinding? = null
-    private val binding get() = _fragmentFollowerBinding!!
+class FollowingFragment : Fragment() {
 
     private val userViewModel: UserViewModel by viewModels()
+
+    private var _fragmentFollowingBinding: FragmentFollowingBinding? = null
+    private val binding get() = _fragmentFollowingBinding!!
 
     private lateinit var userAdapter: UserAdapter
 
@@ -31,36 +31,36 @@ class FollowerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _fragmentFollowerBinding = FragmentFollowersBinding.inflate(inflater)
-        return _fragmentFollowerBinding?.root
+        _fragmentFollowingBinding = FragmentFollowingBinding.inflate(inflater)
+        return _fragmentFollowingBinding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvFollower.layoutManager =
+
+        binding.rvFollowing.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         val username = (activity as UserDetailActivity).username
-        getFollower(username)
+        getFollowingUser(username)
     }
 
-    private fun getFollower(login: String) {
-        userViewModel.getFollowers(login).observe(viewLifecycleOwner) { response ->
+    private fun getFollowingUser(login: String) {
+        userViewModel.getFollowing(login).observe(viewLifecycleOwner) { response ->
             when (response) {
                 is ApiResponse.Loading -> {
                     isLoading(true)
-                    Log.d("follower_user", "Loading....")
                 }
                 is ApiResponse.Success -> {
                     isLoading(false)
                     userAdapter = UserAdapter(response.data)
-                    binding.rvFollower.adapter = userAdapter
+                    binding.rvFollowing.adapter = userAdapter
                 }
                 is ApiResponse.Empty -> {
                     isLoading(false)
                     val list = emptyList<User>()
                     userAdapter = UserAdapter(list)
-                    binding.rvFollower.adapter = userAdapter
+                    binding.rvFollowing.adapter = userAdapter
                 }
                 else -> {
                     isLoading(false)

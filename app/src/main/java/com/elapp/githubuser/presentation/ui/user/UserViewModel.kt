@@ -16,6 +16,12 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(private val userRepository: UserRepository): ViewModel() {
 
+    val username = MutableLiveData<String>()
+
+    fun getLoginUsername(searchUsername: String) {
+        return username.postValue(searchUsername)
+    }
+
     fun getSearchUser(query: String): LiveData<ApiResponse<GetSearchUserResponse>> {
         val result = MutableLiveData<ApiResponse<GetSearchUserResponse>>()
         viewModelScope.launch {
@@ -30,6 +36,26 @@ class UserViewModel @Inject constructor(private val userRepository: UserReposito
         val result = MutableLiveData<ApiResponse<User>>()
         viewModelScope.launch {
             userRepository.getDetailUser(login).collect {
+                result.postValue(it)
+            }
+        }
+        return result
+    }
+
+    fun getFollowers(login: String): LiveData<ApiResponse<List<User>>> {
+        val result = MutableLiveData<ApiResponse<List<User>>>()
+        viewModelScope.launch {
+            userRepository.getFollowers(login).collect {
+                result.postValue(it)
+            }
+        }
+        return result
+    }
+
+    fun getFollowing(login: String): LiveData<ApiResponse<List<User>>> {
+        val result = MutableLiveData<ApiResponse<List<User>>>()
+        viewModelScope.launch {
+            userRepository.getFollowing(login).collect {
                 result.postValue(it)
             }
         }

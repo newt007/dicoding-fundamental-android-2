@@ -43,4 +43,36 @@ class UserDataSource @Inject constructor(private val userService: UserService) {
         }
     }
 
+    suspend fun getFollowers(login: String): Flow<ApiResponse<List<User>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = userService.getFollowers(login)
+                if (response.isNotEmpty()) {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (ex: Exception) {
+                emit(ApiResponse.Error(ex.toString()))
+            }
+        }
+    }
+
+    suspend fun getFollowing(login: String): Flow<ApiResponse<List<User>>> {
+        return flow {
+            try {
+                emit(ApiResponse.Loading)
+                val response = userService.getFollowing(login)
+                if (response.isNotEmpty()) {
+                    emit(ApiResponse.Success(response))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+            } catch (ex: Exception) {
+                emit(ApiResponse.Error(ex.toString()))
+            }
+        }
+    }
+
 }
