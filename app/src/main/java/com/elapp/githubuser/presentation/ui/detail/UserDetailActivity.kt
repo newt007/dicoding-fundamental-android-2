@@ -2,6 +2,7 @@ package com.elapp.githubuser.presentation.ui.detail
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -38,6 +39,7 @@ class UserDetailActivity : AppCompatActivity() {
         setContentView(_activityUserDetailBinding?.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        title = "Detail User"
 
         username = intent.getStringExtra("user_login").toString()
 
@@ -63,7 +65,7 @@ class UserDetailActivity : AppCompatActivity() {
                     val user = response.data
                     with(binding) {
                         txFullName.text = user.name
-                        txUsername.text = user.company
+                        txUsername.text = user.login
                         txFollowingCount.text = user.following.toString()
                         txFollowerCount.text = user.followers.toString()
                         txRepositoryCount.text = user.publicRepos.toString()
@@ -77,6 +79,9 @@ class UserDetailActivity : AppCompatActivity() {
                             .error(R.drawable.bg_img_placeholder)
                             .into(imgAvatar)
                     }
+                }
+                is ApiResponse.Error -> {
+                    Toast.makeText(this, response.errorMessage, Toast.LENGTH_SHORT).show()
                 }
                 else -> {
                     Log.d("detail_user", "Error unknown")

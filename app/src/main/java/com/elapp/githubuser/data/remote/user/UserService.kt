@@ -1,7 +1,6 @@
 package com.elapp.githubuser.data.remote.user
 
 import com.elapp.githubuser.data.entity.User
-import com.elapp.githubuser.data.remote.user.GetSearchUserResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

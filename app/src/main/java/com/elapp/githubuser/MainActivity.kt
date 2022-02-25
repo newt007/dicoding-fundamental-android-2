@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -33,12 +35,15 @@ class MainActivity : AppCompatActivity(), UserItemListener {
         _activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(_activityMainBinding?.root)
 
+        window.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        )
+
         setupRv()
 
         binding.svUser.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 getSearchUser(query.toString())
-
                 return false
             }
 
@@ -47,6 +52,7 @@ class MainActivity : AppCompatActivity(), UserItemListener {
             }
 
         })
+
     }
 
     private fun setupRv() {
@@ -61,18 +67,25 @@ class MainActivity : AppCompatActivity(), UserItemListener {
                 }
                 is ApiResponse.Success -> {
                     isLoading(false)
+                    isEmpty(false)
                     userAdapter = UserAdapter(response.data.items)
                     userAdapter.onItemClicked(this)
                     binding.rvUser.adapter = userAdapter
                 }
                 is ApiResponse.Empty -> {
                     isLoading(false)
+                    isEmpty(true)
                     val emptyList = emptyList<User>()
                     userAdapter = UserAdapter(emptyList)
                     binding.rvUser.adapter = userAdapter
                 }
+                is ApiResponse.Error -> {
+                    isLoading(false)
+                    Toast.makeText(this, response.errorMessage, Toast.LENGTH_SHORT).show()
+                }
                 else -> {
                     isLoading(false)
+                    isEmpty(true)
                     Log.d("search_user", "Error unknown")
                 }
             }
@@ -83,9 +96,19 @@ class MainActivity : AppCompatActivity(), UserItemListener {
         if (loading) {
             binding.shimmerLoading.visibility = View.VISIBLE
             binding.rvUser.visibility = View.INVISIBLE
+            binding.txEmpty.visibility = View.INVISIBLE
         } else {
             binding.rvUser.visibility = View.VISIBLE
             binding.shimmerLoading.visibility = View.INVISIBLE
+            binding.txEmpty.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun isEmpty(empty: Boolean) {
+        if (empty) {
+            binding.txEmpty.visibility = View.VISIBLE
+        } else {
+            binding.txEmpty.visibility = View.GONE
         }
     }
 
@@ -98,8 +121,6 @@ class MainActivity : AppCompatActivity(), UserItemListener {
         val intent = Intent(this, UserDetailActivity::class.java)
         val loginUser = user.login
         intent.putExtra("user_login", loginUser)
-        userViewModel.username.postValue(loginUser)
-        Log.d("user_detail", userViewModel.username.value.toString())
         startActivity(intent)
     }
 

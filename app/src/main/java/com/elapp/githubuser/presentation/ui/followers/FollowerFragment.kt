@@ -12,7 +12,6 @@ import com.elapp.githubuser.data.entity.User
 import com.elapp.githubuser.data.remote.ApiResponse
 import com.elapp.githubuser.databinding.FragmentFollowersBinding
 import com.elapp.githubuser.presentation.ui.detail.UserDetailActivity
-import com.elapp.githubuser.presentation.ui.user.UserAdapter
 import com.elapp.githubuser.presentation.ui.user.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +23,7 @@ class FollowerFragment : Fragment() {
 
     private val userViewModel: UserViewModel by viewModels()
 
-    private lateinit var userAdapter: UserAdapter
+    private lateinit var followerAdapter: FollowerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,20 +52,30 @@ class FollowerFragment : Fragment() {
                 }
                 is ApiResponse.Success -> {
                     isLoading(false)
-                    userAdapter = UserAdapter(response.data)
-                    binding.rvFollower.adapter = userAdapter
+                    isEmpty(false)
+                    followerAdapter = FollowerAdapter(response.data)
+                    binding.rvFollower.adapter = followerAdapter
                 }
                 is ApiResponse.Empty -> {
                     isLoading(false)
+                    isEmpty(true)
                     val list = emptyList<User>()
-                    userAdapter = UserAdapter(list)
-                    binding.rvFollower.adapter = userAdapter
+                    followerAdapter = FollowerAdapter(list)
+                    binding.rvFollower.adapter = followerAdapter
                 }
                 else -> {
                     isLoading(false)
-                    Log.d("follower_user", "Unkown error")
+                    Log.d("follower_user", "Unknown error")
                 }
             }
+        }
+    }
+
+    private fun isEmpty(empty: Boolean) {
+        if (empty) {
+            binding.txEmpty.visibility = View.VISIBLE
+        } else {
+            binding.txEmpty.visibility = View.GONE
         }
     }
 

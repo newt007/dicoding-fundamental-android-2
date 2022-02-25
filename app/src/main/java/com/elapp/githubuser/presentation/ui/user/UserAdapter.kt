@@ -33,7 +33,7 @@ class UserAdapter(private val userList: List<User>): RecyclerView.Adapter<UserAd
 
     override fun getItemCount(): Int = userList.size
 
-    class ViewHolder(private val binding: UserItemRowBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: UserItemRowBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind (user: User) {
             with(binding) {
                 txUsername.text = user.login

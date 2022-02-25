@@ -54,4 +54,16 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+    <TextView
+        android:id="@+id/tx_empty"
+        android:text="@string/user_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextContent.Title"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

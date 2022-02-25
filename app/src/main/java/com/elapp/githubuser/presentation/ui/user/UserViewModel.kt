@@ -16,12 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(private val userRepository: UserRepository): ViewModel() {
 
-    val username = MutableLiveData<String>()
-
-    fun getLoginUsername(searchUsername: String) {
-        return username.postValue(searchUsername)
-    }
-
     fun getSearchUser(query: String): LiveData<ApiResponse<GetSearchUserResponse>> {
         val result = MutableLiveData<ApiResponse<GetSearchUserResponse>>()
         viewModelScope.launch {
