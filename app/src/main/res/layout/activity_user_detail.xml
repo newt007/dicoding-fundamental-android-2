@@ -3,8 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/dark_blue">
+    android:layout_height="match_parent">
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            layout="@layout/detail_user_shimmer_loading"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_avatar"
@@ -59,15 +70,14 @@
                 style="@style/TextContent.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/followers"
-                android:textColor="@color/white" />
+                android:text="@string/followers" />
 
             <TextView
                 android:id="@+id/tx_follower_count"
+                style="@style/TextContent.Count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/placeholder"
-                android:textColor="@color/white" />
+                android:text="@string/placeholder" />
 
         </LinearLayout>
 
@@ -83,15 +93,14 @@
                 style="@style/TextContent.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/following"
-                android:textColor="@color/white" />
+                android:text="@string/following" />
 
             <TextView
                 android:id="@+id/tx_following_count"
+                style="@style/TextContent.Count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/placeholder"
-                android:textColor="@color/white" />
+                android:text="@string/placeholder" />
 
         </LinearLayout>
 
@@ -107,15 +116,14 @@
                 style="@style/TextContent.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/repository"
-                android:textColor="@color/white" />
+                android:text="@string/repository" />
 
             <TextView
                 android:id="@+id/tx_repository_count"
+                style="@style/TextContent.Count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/placeholder"
-                android:textColor="@color/white" />
+                android:text="@string/placeholder" />
 
         </LinearLayout>
 
@@ -155,9 +163,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:background="@color/light_grey_2"
         android:elevation="0dp"
-        app:tabTextColor="@color/white"
+        style="@style/TabLayout"
         app:layout_constraintTop_toBottomOf="@id/layout_company_location" />
 
     <androidx.viewpager2.widget.ViewPager2
@@ -166,5 +173,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/button_for_adding_favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package com.elapp.githubuser
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -14,6 +16,8 @@ import com.elapp.githubuser.data.entity.User
 import com.elapp.githubuser.data.remote.ApiResponse
 import com.elapp.githubuser.databinding.ActivityMainBinding
 import com.elapp.githubuser.presentation.ui.detail.UserDetailActivity
+import com.elapp.githubuser.presentation.ui.favorite.FavoriteActivity
+import com.elapp.githubuser.presentation.ui.preferences.PreferencesActivity
 import com.elapp.githubuser.presentation.ui.user.UserAdapter
 import com.elapp.githubuser.presentation.ui.user.UserViewModel
 import com.elapp.githubuser.presentation.ui.user.listener.UserItemListener
@@ -38,9 +42,9 @@ class MainActivity : AppCompatActivity(), UserItemListener {
         window.setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         )
-
         setupRv()
 
+        binding.svUser.setQuery(binding.svUser.query, true)
         binding.svUser.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 getSearchUser(query.toString())
@@ -50,9 +54,24 @@ class MainActivity : AppCompatActivity(), UserItemListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return false
             }
-
         })
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_item, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.favorites -> {
+                startActivity(Intent(this, FavoriteActivity::class.java))
+            }
+            R.id.setting -> {
+                startActivity(Intent(this, PreferencesActivity::class.java))
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupRv() {
@@ -94,13 +113,17 @@ class MainActivity : AppCompatActivity(), UserItemListener {
 
     private fun isLoading(loading: Boolean) {
         if (loading) {
-            binding.shimmerLoading.visibility = View.VISIBLE
-            binding.rvUser.visibility = View.INVISIBLE
-            binding.txEmpty.visibility = View.INVISIBLE
+            binding.apply {
+                shimmerLoading.visibility = View.VISIBLE
+                rvUser.visibility = View.INVISIBLE
+                txEmpty.visibility = View.INVISIBLE
+            }
         } else {
-            binding.rvUser.visibility = View.VISIBLE
-            binding.shimmerLoading.visibility = View.INVISIBLE
-            binding.txEmpty.visibility = View.INVISIBLE
+            binding.apply {
+                rvUser.visibility = View.VISIBLE
+                shimmerLoading.visibility = View.INVISIBLE
+                txEmpty.visibility = View.INVISIBLE
+            }
         }
     }
 

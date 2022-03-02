@@ -1,7 +1,6 @@
 package com.elapp.githubuser.presentation.ui.following
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -89,6 +88,11 @@ class FollowingFragment : Fragment() {
         } else {
             binding.shimmerLoading.visibility = View.INVISIBLE
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragmentFollowingBinding = null
     }
 
 }

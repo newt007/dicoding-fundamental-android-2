@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.SearchView
@@ -13,6 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_search_view"
         android:layout_margin="16dp"
+        android:focusable="false"
+        android:imeOptions="flagNoExtractUi"
         app:searchIcon="@drawable/ic_search"
         app:layout_constraintTop_toTopOf="parent" />
 

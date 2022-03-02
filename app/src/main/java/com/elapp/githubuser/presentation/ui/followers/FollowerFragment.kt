@@ -87,4 +87,9 @@ class FollowerFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragmentFollowerBinding = null
+    }
+
 }

@@ -11,14 +11,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserDataSource @Inject constructor(private val userService: UserService) {
+class UserDataSource @Inject constructor(
+    private val userService: UserService
+) {
 
     suspend fun getSearchUsers(query: String): Flow<ApiResponse<GetSearchUserResponse>> {
         return flow {
             try {
                 emit(ApiResponse.Loading)
                 val response = userService.getSearchUsers(query)
-                if(response.items.isNotEmpty()) {
+                if (response.items.isNotEmpty()) {
                     emit(ApiResponse.Success(response))
                     Log.d("user_search", "Search user success")
                 } else {

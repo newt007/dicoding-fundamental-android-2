@@ -13,11 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubUser">
         <activity
-            android:name=".presentation.ui.detail.UserDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="stateUnchanged|adjustResize"
+            android:name=".presentation.ui.splash.SplashActivity"
+            android:theme="@style/SplashTheme"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.ui.preferences.PreferencesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.favorite.FavoriteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.ui.detail.UserDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateUnchanged|adjustResize"/>
     </application>
 
 </manifest>

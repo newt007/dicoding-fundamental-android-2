@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.elapp.githubuser.R
 import com.elapp.githubuser.data.entity.User
 import com.elapp.githubuser.databinding.UserItemRowBinding
 
@@ -30,7 +31,9 @@ class FollowerAdapter(private val followerList: List<User>) :
                 txUsername.text = user.login
                 Glide.with(imgAvatar.context)
                     .load(user.avatarUrl)
+                    .error(R.color.shimmer_color)
                     .override(50, 50)
+                    .placeholder(R.color.shimmer_color)
                     .into(imgAvatar)
             }
         }
